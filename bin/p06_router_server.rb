@@ -1,6 +1,7 @@
 require 'webrick'
 require_relative '../lib/phase6/controller_base'
 require_relative '../lib/phase6/router'
+require_relative '../lib/flash/flash'
 
 
 # http://www.ruby-doc.org/stdlib-2.0/libdoc/webrick/rdoc/WEBrick.html
@@ -29,15 +30,21 @@ class StatusesController < Phase6::ControllerBase
   end
 end
 
-class Cats2Controller < Phase6::ControllerBase
+class CatsController < Phase6::ControllerBase
   def index
-    render_content($cats.to_s, "text/text")
+    flash["errors"] = ["Flashed Error"]
+    @cats = $cats.to_s
+  end
+
+  def new
+
   end
 end
 
 router = Phase6::Router.new
 router.draw do
-  get Regexp.new("^/cats$"), Cats2Controller, :index
+  get Regexp.new("^/cats$"), CatsController, :index
+  get Regexp.new("^/cats/new$"), CatsController, :new
   get Regexp.new("^/cats/(?<cat_id>\\d+)/statuses$"), StatusesController, :index
 end
 

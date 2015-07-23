@@ -5,28 +5,28 @@ class Flash
 
   def initialize(req)
     @flash = {}
-    @counter = 0
+    @now_hash = {}
     req.cookies.each do |cookie|
-      @flash = JSON.parse(cookie.value) if cookie.name == "_flash"
+      @now_hash = JSON.parse(cookie.value) if cookie.name == "_flash"
     end
   end
 
   def [](key)
-    @flash[key]
+    @flash.merge(@now_hash)[key]
   end
 
   def []=(key, val)
     @flash[key] = val
   end
 
-  def store_flash
+  def store_flash(res)
     cookie = WEBrick::Cookie.new('_flash', @flash.to_json )
-    @res.cookies << cookie if @counter < 2
-    @counter += 1
+    cookie.path = "/"
+    res.cookies << cookie
   end
 
-  def self.now
-    @counter += 1
+  def now
+    @now_hash
   end
 
 end
