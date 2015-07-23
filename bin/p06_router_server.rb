@@ -33,12 +33,14 @@ end
 class CatsController < Phase6::ControllerBase
   def index
     flash["errors"] = ["Flashed Error"]
+    flash.now["error"] = ["Flashed Now Error"]
     @cats = $cats.to_s
   end
 
   def new
 
   end
+
 end
 
 router = Phase6::Router.new

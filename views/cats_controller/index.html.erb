@@ -1,5 +1,7 @@
 <h1>ALL THE CATS</h1>
 <pre><%= @cats.to_s %></pre>
 <a href="/cats/new">New cat!</a>
-
-<%= flash["errors"].join("<br>").html_safe if flash["errors"] %>
+<br><br>
+<%= "Flashed Error Sample:" if flash["errors"]  %>
+<%= flash["errors"].join("<br>").html_safe if flash["errors"] %><br>
+<%= flash["error"].join("<br>").html_safe if flash["error"] %>
